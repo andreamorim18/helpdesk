@@ -1,0 +1,91 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id          String   @id @default(cuid())
+  name        String
+  email       String   @unique
+  password    String
+  role        UserRole @default(CLIENT)
+  avatar      String?
+  availability String[] // Only for technicians
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  createdCalls Call[] @relation("ClientCalls")
+  assignedCalls Call[] @relation("TechnicianCalls")
+
+  @@map("users")
+}
+
+model Service {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  description String?
+  price       Float
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  callServices CallService[]
+
+  @@map("services")
+}
+
+model Call {
+  id          String     @id @default(cuid())
+  title       String
+  description String?
+  status      CallStatus @default(ABERTO)
+  totalValue  Float
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  // Relations
+  clientId     String
+  client       User     @relation("ClientCalls", fields: [clientId], references: [id], onDelete: Cascade)
+  technicianId String
+  technician   User     @relation("TechnicianCalls", fields: [technicianId], references: [id])
+  services     CallService[]
+
+  @@map("calls")
+}
+
+model CallService {
+  id        String @id @default(cuid())
+  callId    String
+  serviceId String
+  quantity  Int    @default(1)
+  price     Float
+
+  call    Call    @relation(fields: [callId], references: [id], onDelete: Cascade)
+  service Service @relation(fields: [serviceId], references: [id])
+
+  @@unique([callId, serviceId])
+  @@map("call_services")
+}
+
+enum UserRole {
+  ADMIN
+  TECHNICIAN
+  CLIENT
+}
+
+enum CallStatus {
+  ABERTO
+  EM_ATENDIMENTO
+  ENCERRADO
+}
