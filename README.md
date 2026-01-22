@@ -327,15 +327,114 @@ npm run test -- --coverage
 
 ## 🚀 Deploy
 
-### Backend (Render)
-1. Conectar repositório ao Render
-2. Configurar variáveis de ambiente
-3. Deploy automático
+### ⚠️ **IMPORTANTE: GitHub Pages Não Suportado**
 
-### Frontend (Vercel/Netlify)
-1. Conectar repositório
-2. Configurar variáveis de ambiente
-3. Deploy automático
+Este é um projeto **Full-Stack** que requer:
+- Backend Node.js + PostgreSQL
+- Frontend React + API Integration
+- Variáveis de ambiente e configurações
+
+**GitHub Pages** serve apenas arquivos estáticos e **não é compatível** com este projeto.
+
+---
+
+### 🌐 **Deploy Profissional Recomendado**
+
+#### 🟢 Backend - Render.com
+
+1. **Acesse**: https://render.com/dashboard
+2. **Novo Web Service** → "New" → "Web Service"
+3. **Conecte Repositório**: https://github.com/andreamorim18/helpdesk
+4. **Configurações**:
+   ```
+   Root Directory: backend
+   Build Command: npm install
+   Start Command: npm start
+   Runtime: Node
+   ```
+5. **Variáveis de Ambiente**:
+   ```
+   DATABASE_URL=postgresql://postgres:senha@host:5432/database
+   JWT_SECRET=sua-chave-secreta-aqui
+   PORT=3333
+   NODE_ENV=production
+   ```
+6. **Deploy Automático**: Configure para fazer deploy em cada push
+
+#### 🟡 Frontend - Vercel.com
+
+1. **Acesse**: https://vercel.com/dashboard
+2. **Novo Projeto** → "New Project"
+3. **Conecte Repositório**: https://github.com/andreamorim18/helpdesk
+4. **Configurações**:
+   ```
+   Root Directory: frontend
+   Build Command: npm run build
+   Output Directory: dist
+   ```
+5. **Variáveis de Ambiente**:
+   ```
+   VITE_API_URL=https://seu-backend.onrender.com
+   ```
+6. **Deploy Automático**: Configure para fazer deploy em cada push
+
+#### 🔵 Frontend - Netlify.com (Alternativa)
+
+1. **Acesse**: https://app.netlify.com/
+2. **Novo Site** → "Add new site" → "Import existing project"
+3. **Conecte Repositório**: https://github.com/andreamorim18/helpdesk
+4. **Configurações**:
+   ```
+   Base directory: frontend
+   Build command: npm run build
+   Publish directory: dist
+   ```
+5. **Variáveis de Ambiente**:
+   ```
+   VITE_API_URL=https://seu-backend.onrender.com
+   ```
+
+---
+
+### 🎯 **Resultado Final**
+
+Após o deploy, você terá:
+
+- **Backend**: `https://seu-backend.onrender.com`
+- **Frontend**: `https://seu-frontend.vercel.app`
+- **API Docs**: `https://seu-backend.onrender.com/api`
+
+---
+
+### 🐳 **Alternativa: Docker Production**
+
+Para deploy com Docker em servidores dedicados:
+
+```bash
+# Build e produção
+docker-compose -f docker-compose.prod.yml up -d
+```
+
+---
+
+### 📋 **Checklist de Deploy**
+
+- [ ] Repositório GitHub privado
+- [ ] Variáveis de ambiente configuradas
+- [ ] Banco de dados PostgreSQL criado
+- [ ] Backend deployado no Render
+- [ ] Frontend deployado no Vercel/Netlify
+- [ ] URLs de produção testadas
+- [ ] Funcionalidades validadas
+
+---
+
+### 🔗 **Links Úteis**
+
+- **Render**: https://render.com/docs/node-express
+- **Vercel**: https://vercel.com/docs/concepts/projects/environment-variables
+- **Netlify**: https://docs.netlify.com/configure-builds/environment-variables/
+- **Docker**: https://docs.docker.com/compose/
 
 ## 📄 Licença
 
